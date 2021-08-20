@@ -2,33 +2,32 @@ from pytube import YouTube
 from pytube import Playlist
 from tqdm import tqdm
 from pytube.cli import on_progress
+import os
 
-def progress_func(self,stream, chunk,file_handle, bytes_remaining):
-
-    size = video.filesize
-    p = 0
-    while p <= 100:
-        progress = p
-        print(str(p)+'%')
-        p = percent(bytes_remaining, size)
+url = "https://www.youtube.com/playlist?list=PLfj7PB0WEpfF3sq72sWnf6k8yAC6xESHW"
 
 
-def percent(self, tem, total):
-        perc = (float(tem) / float(total)) * float(100)
-        return perc
+def pls(url):
+        
+        playlist = Playlist(url)
+        try:    
+                title = playlist.title
+                dir_path = os.getcwd()
+                path = os.path.join(dir_path, title)
+                os.mkdir(path)
+                os.chdir(path)
+                print("---------------------------------DOWNLOADING...-----------------------------\n")
 
-url = "https://www.youtube.com/playlist?list=PLKkk89TwM8FeRXdCudXzcpxlkCUpMqUAd"
-playlist = Playlist(url)
+                for video in playlist.videos:
+                        try:
+                                video.register_on_progress_callback(on_progress)
+                                print("Downloading:",video.title)
+                                video.streams.get_highest_resolution().download()
+                                print("\n")
+                        except Exception as exception:
+                                print(f"Failed downloading:{video.title} | Error:{exception}")
 
-print("---------------------------------DOWNLOADING...-----------------------------\n")
-
-for video in playlist.videos:
-	try:
-		video.register_on_progress_callback(on_progress)
-		print("Downloading:",video.title)
-		video.streams.get_highest_resolution().download()
-		print("\n")
-	except:
-		print("Failed downloading:",video.title)
-
-print("------------------------PLAYLIST DOWNLOAD COMPLETE--------------------------\n")
+                print("------------------------PLAYLIST DOWNLOAD COMPLETE--------------------------\n")
+        except Exception as exception:
+                print(f"Connection Error: {exception}")
+pls(url)
