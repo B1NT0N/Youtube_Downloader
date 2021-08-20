@@ -3,9 +3,6 @@ from pytube import Playlist
 from pytube.cli import on_progress
 import os
 
-url2 = "https://www.youtube.com/playlist?list=PLfj7PB0WEpfF3sq72sWnf6k8yAC6xESHW"
-url1 = "https://www.youtube.com/watch?v=fjUGC8g4GOE"
-
 def single_audio(url):
         video=YouTube(url,on_progress_callback=on_progress)
         try:
