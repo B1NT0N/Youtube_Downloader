@@ -1,12 +1,20 @@
 from pytube import YouTube
 from pytube import Playlist
-from tqdm import tqdm
 from pytube.cli import on_progress
 import os
 
 url = "https://www.youtube.com/playlist?list=PLfj7PB0WEpfF3sq72sWnf6k8yAC6xESHW"
 
-
+def sgl(url):
+        video=YouTube(url)
+        try:
+                video.register_on_progress_callback(on_progress)
+                print("Downloading:",video.title)
+                video.streams.get_highest_resolution().download()
+                print("\n")
+        except Exception as exception:
+                print(f"Failed downloading:{video.title} | Error:{exception}")
+                
 def pls(url):
         
         playlist = Playlist(url)
@@ -30,4 +38,11 @@ def pls(url):
                 print("------------------------PLAYLIST DOWNLOAD COMPLETE--------------------------\n")
         except Exception as exception:
                 print(f"Connection Error: {exception}")
-pls(url)
+
+chc = input("Select 1 for Single Video or 2 for Playlist (1/2): ")
+if chc == "1":
+        url = input("URL:")
+        #sgl(url)
+elif chc == "2":
+        url = input("URL:")
+        #pls(url)
