@@ -3,20 +3,43 @@ from pytube import Playlist
 from pytube.cli import on_progress
 import os
 
-url = "https://www.youtube.com/playlist?list=PLfj7PB0WEpfF3sq72sWnf6k8yAC6xESHW"
+url2 = "https://www.youtube.com/playlist?list=PLfj7PB0WEpfF3sq72sWnf6k8yAC6xESHW"
+url1 = "https://www.youtube.com/watch?v=fjUGC8g4GOE"
 
-def sgl(url):
-        video=YouTube(url)
+def single_audio(url):
+        video=YouTube(url,on_progress_callback=on_progress)
         try:
                 try:
                         dir_path = os.getcwd()
-                        path = os.path.join(dir_path, "Downloads")
+                        path = os.path.join(dir_path, "SDownloads")
                         os.mkdir(path)
                         os.chdir(path)
                 except OSError:
                         os.chdir(path)
                         
-                video.register_on_progress_callback(on_progress)
+                #video.register_on_progress_callback(on_progress)
+                print("Downloading:",video.title)
+                out_file = video.streams.filter(only_audio=True).first().download()
+                base, ext = os.path.splitext(out_file)
+                new_file = base + '.mp3'
+                os.rename(out_file, new_file)
+                
+                
+        except Exception as exception:
+                print(f"Failed downloading:{video.title} | Error:{exception}")
+        os.chdir(dir_path) 
+def single_video(url):
+        video=YouTube(url,on_progress_callback=on_progress)
+        try:
+                try:
+                        dir_path = os.getcwd()
+                        path = os.path.join(dir_path, "SVideo Downloads")
+                        os.mkdir(path)
+                        os.chdir(path)
+                except OSError:
+                        os.chdir(path)
+                        
+                #video.register_on_progress_callback(on_progress)
                 print("Downloading:",video.title)
                 video.streams.get_highest_resolution().download()
 
@@ -24,7 +47,7 @@ def sgl(url):
                 print(f"Failed downloading:{video.title} | Error:{exception}")
         os.chdir(dir_path)  
               
-def pls(url):
+def video_playlist(url):
         
         playlist = Playlist(url)
         try:    
@@ -50,11 +73,14 @@ def pls(url):
                 print(f"Connection Error: {exception}")
                 os.chdir(dir_path)
 
-chc = input("Select 1 for Single Video or 2 for Playlist (1/2): ")
+chc = input("================================\nMENU\n================================\n1 - Single Video\n2 - Video Playlist\n3 - Single Audio\n5 - Fourth menu item\n6 - Exit\n================================\nEnter a choice and press enter:")
 if chc == "1":
-        url = input("URL:")
-        sgl(url)
+        #url = input("URL:")
+        single_video(url1)
 elif chc == "2":
-        url = input("URL:")
-        pls(url)
+        #url = input("URL:")
+        video_playlist(url2)
+elif chc == "3":
+        #url = input("URL:")
+        single_audio(url1)
         
