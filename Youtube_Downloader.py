@@ -55,16 +55,17 @@ def video_playlist(url):
                 os.mkdir(path)
                 os.chdir(path)
                 print("---------------------------------DOWNLOADING...-----------------------------\n")
-
+                count = 1
                 for video in playlist.videos:
+                        
                         try:
                                 video.register_on_progress_callback(on_progress)
-                                print("Downloading:",video.title)
+                                print(f"Downloading({count}/{len(playlist.videos)}):{video.title}")
                                 video.streams.get_highest_resolution().download()
                                 print("\n")
                         except Exception as exception:
                                 print(f"Failed downloading:{video.title} | Error:{exception}")
-
+                        count=count+1
                 print("------------------------PLAYLIST DOWNLOAD COMPLETE--------------------------\n")
                 os.chdir(dir_path)
         except Exception as exception:
@@ -80,11 +81,12 @@ def audio_playlist(url):
                 os.mkdir(path)
                 os.chdir(path)
                 print("---------------------------------DOWNLOADING...-----------------------------\n")
-
+                count = 1
                 for video in playlist.videos:
+                        
                         try:
                                 video.register_on_progress_callback(on_progress)
-                                print("Downloading:",video.title)
+                                print(f"Downloading({count}/{len(playlist.videos)}):{video.title}")
                                 out_file = video.streams.filter(only_audio=True).first().download()
                                 base, ext = os.path.splitext(out_file)
                                 new_file = base + '.mp3'
@@ -92,7 +94,7 @@ def audio_playlist(url):
                                 print("\n")
                         except Exception as exception:
                                 print(f"Failed downloading:{video.title} | Error:{exception}")
-
+                        count=count+1
                 print("------------------------PLAYLIST DOWNLOAD COMPLETE--------------------------\n")
                 os.chdir(dir_path)
         except Exception as exception:
