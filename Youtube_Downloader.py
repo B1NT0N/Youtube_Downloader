@@ -48,23 +48,26 @@ def single_video(url):
 def video_playlist(url):
         
         playlist = Playlist(url)
-        try:    
-                title = playlist.title
-                dir_path = os.getcwd()
-                path = os.path.join(dir_path, title)
-                os.mkdir(path)
-                os.chdir(path)
+        try:
+                try:    
+                        title = playlist.title
+                        dir_path = os.getcwd()
+                        path = os.path.join(dir_path, title)
+                        os.mkdir(path)
+                        os.chdir(path)
+                except:
+                        os.chdir(path)
                 print("---------------------------------DOWNLOADING...-----------------------------\n")
                 count = 1
                 for video in playlist.videos:
-                        
-                        try:
-                                video.register_on_progress_callback(on_progress)
-                                print(f"Downloading({count}/{len(playlist.videos)}):{video.title}")
-                                video.streams.get_highest_resolution().download()
-                                print("\n")
-                        except Exception as exception:
-                                print(f"Failed downloading:{video.title} | Error:{exception}")
+                        if count>=61:
+                                try:
+                                        video.register_on_progress_callback(on_progress)
+                                        print(f"Downloading({count}/{len(playlist.videos)}):{video.title}")
+                                        video.streams.get_highest_resolution().download()
+                                        print("\n")
+                                except Exception as exception:
+                                        print(f"Failed downloading:{video.title} | Error:{exception}")
                         count=count+1
                 print("------------------------PLAYLIST DOWNLOAD COMPLETE--------------------------\n")
                 os.chdir(dir_path)
@@ -101,7 +104,7 @@ def audio_playlist(url):
                 print(f"Connection Error: {exception}")
                 os.chdir(dir_path)
 
-while True:
+""" while True:
                         
         chc = input("\n================================\n             MENU            \n================================\n1 - Single Video\n2 - Video Playlist\n3 - Single Audio\n4 - Audio Playlist\n5 - Exit\n================================\nEnter a choice and press enter:")
 
@@ -119,6 +122,6 @@ while True:
                 audio_playlist(url)
         elif chc == "5":
                 print("Exiting...")
-                break
+                break """
 
         
