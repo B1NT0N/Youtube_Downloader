@@ -1,0 +1,102 @@
+QWidget
+{
+	background-color: #3e4345;
+	color: #fff;
+	border-color: #000000;
+	font: 8pt "SF UI Text";
+}
+
+
+/*-----QLabel-----*/
+QLabel
+{
+	background-color: transparent;
+	color: #ffffff;
+	font-weight: bold;
+	border-color: #000000;
+
+}
+
+
+/*-----QPushButton-----*/
+QPushButton
+{
+	background-color: #313537;
+	color: #fff;
+	font-weight: bold; 
+	border-radius: 2px;
+
+}
+
+QPushButton::hover
+{
+	background-color: #78909c;
+	color: #fff;
+
+}
+
+QPushButton::pressed
+{
+	background-color: #d10000;
+	color: #fff;
+
+}
+
+/*-----QLineEdit-----*/
+QLineEdit{
+	background-color: #4d5255;
+	color: #fff;
+	border-style: solid;
+	border-radius: 3px;
+	padding: 2px;
+	placeholder-color
+
+}
+QLineEdit::focus{
+	background-color: #4d5255;
+	color: #fff;
+	border-radius: 3px;
+	border-color:#e82750;
+	border:1px solid rgb(232,39,80);
+}
+
+
+QRadioButton{
+	background-color: transparent;
+	font-weight: bold;
+	color: #fff;
+
+}
+
+
+QRadioButton::indicator::unchecked
+{ 
+	border: 2px inset #222222; 
+	border-radius: 6px; 
+	background-color:  #323232;
+	width: 9px; 
+	height: 9px; 
+
+}
+
+
+QRadioButton::indicator::unchecked:hover
+{ 
+	border: 2px solid #78909c; 
+	border-radius: 5px; 
+	background-color:  #323232;
+	width: 9px; 
+	height: 9px; 
+
+}
+
+
+QRadioButton::indicator::checked
+{ 
+	border: 2px inset #222222; 
+	border-radius: 5px; 
+	background-color: #e82750; 
+	width: 9px; 
+	height: 9px; 
+
+}

@@ -15,7 +15,7 @@ import Youtube_Downloader as yd
 class Ui_MainWindow(object):
     
     def setupUi(self, MainWindow):
-        MainWindow.setObjectName("Youtube Downloader V2")
+        MainWindow.setObjectName("MainWindow")
         MainWindow.resize(290, 154)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
@@ -56,16 +56,13 @@ class Ui_MainWindow(object):
         self.menubar.setGeometry(QtCore.QRect(0, 0, 290, 21))
         self.menubar.setObjectName("menubar")
         MainWindow.setMenuBar(self.menubar)
-        self.statusbar = QtWidgets.QStatusBar(MainWindow)
-        self.statusbar.setObjectName("statusbar")
-        MainWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Youtube Downloader"))
         self.download_Button.setText(_translate("MainWindow", u"Download", None))
         self.download_Button.setShortcut(_translate("MainWindow", u"Return", None))
         self.single_audio_check_button.setText(_translate("MainWindow", "Single Audio"))
@@ -73,22 +70,47 @@ class Ui_MainWindow(object):
         self.playlist_audio_check_button.setText(_translate("MainWindow", "Playlist Audio"))
         self.playlist_video_check_button.setText(_translate("MainWindow", "Playlist Video"))
         self.output_label.setText(_translate("MainWindow", "TextLabel"))
+        self.url.setPlaceholderText(_translate("MainWindow", u"URL:", None))
 
     def output(self,text):
         self.output_label.setText(text)
         self.output_label.adjustSize()
         
     def option(self,url):
+    
         if self.single_audio_check_button.isChecked():
+            self.output_label.setText("Downloading Single Audio")
+            self.output_label.adjustSize()
+            time.sleep(2)
             yd.single_audio(url)
+            self.output_label.setText("Download Complete")
+            self.output_label.adjustSize()
+            
         elif self.single_video_check_button.isChecked():
-            yd.single_audio(url)
+            self.output_label.setText("Downloading Single Video")
+            self.output_label.adjustSize()
+            yd.single_video(url)
+            self.output_label.setText("Download Complete")
+            self.output_label.adjustSize()
+            
         elif self.playlist_video_check_button.isChecked():
-            yd.single_audio(url)
+            self.output_label.setText("Downloading Playlist Audio")
+            self.output_label.adjustSize()
+            
+            yd.video_playlist(url)
+            self.output_label.setText("Download Complete")
+            self.output_label.adjustSize()
+            
         elif self.playlist_audio_check_button.isChecked():
-            yd.single_audio(url)
+            self.output_label.setText("Downloading Playlist Video")
+            self.output_label.adjustSize()
+            yd.audio_playlist(url)
+            self.output_label.setText("Download Complete")
+            self.output_label.adjustSize()
+            
         else:
-            yd.single_audio(url)
+            self.output_label.setText("Input URL")
+            self.output_label.adjustSize()
     
     def check_input(self, txt):
         if txt == "":
@@ -99,6 +121,11 @@ class Ui_MainWindow(object):
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
+    #open qss file
+    File = open("Style.qss",'r')
+    with File:
+        qss = File.read()
+        app.setStyleSheet(qss)
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
     ui.setupUi(MainWindow)
